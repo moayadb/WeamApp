@@ -1,55 +1,56 @@
 workflows:
-  ios-workflow:
-    name: iOS App Workflow
-    instance_type: mac_mini_m1
-    environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.weam.app
-      vars:
-        BUNDLE_ID: "com.weam.app"
-        APP_STORE_CONNECT_TEAM_ID: $APP_STORE_CONNECT_TEAM_ID
-        APP_STORE_CONNECT_API_KEY_ID: $APP_STORE_CONNECT_API_KEY_ID
-        APP_STORE_CONNECT_API_KEY_ISSUER_ID: $APP_STORE_CONNECT_API_KEY_ISSUER_ID
-    triggering:
-      events:
-        - push
-        - pull_request
-      branch:
-        include:
-          - main
-          - release/*
-    scripts:
-      - name: Install Flutter dependencies
-        script: flutter pub get
-
-      - name: Build iOS app
-        script: |
-          flutter build ios --release --no-codesign
-
-      - name: Build IPA
-        script: |
-          cd ios
-          xcodebuild -workspace Runner.xcworkspace \
-            -scheme Runner \
-            -configuration Release \
-            -derivedDataPath build/ios_build \
-            -archivePath build/ios_build/Runner.xcarchive \
-            archive
-          xcodebuild -exportArchive \
-            -archivePath build/ios_build/Runner.xcarchive \
-            -exportOptionsPlist exportOptions.plist \
-            -exportPath build/ios_build/ipa
-          cd ..
-
-    artifacts:
-      - ios/build/ios_build/ipa/**/*.ipa
-      - flutter_drive.log
-    publishing:
-      app_store_connect:
-        auth: $APP_STORE_CONNECT_CREDENTIALS
-        submit_to_testflight: true
-        submit_to_app_store: true
+  # iOS workflow disabled for now - will be re-enabled after initial Android release
+  # ios-workflow:
+  #   name: iOS App Workflow
+  #   instance_type: mac_mini_m1
+  #   environment:
+  #     ios_signing:
+  #       distribution_type: app_store
+  #       bundle_identifier: com.weam.app
+  #     vars:
+  #       BUNDLE_ID: "com.weam.app"
+  #       APP_STORE_CONNECT_TEAM_ID: $APP_STORE_CONNECT_TEAM_ID
+  #       APP_STORE_CONNECT_API_KEY_ID: $APP_STORE_CONNECT_API_KEY_ID
+  #       APP_STORE_CONNECT_API_KEY_ISSUER_ID: $APP_STORE_CONNECT_API_KEY_ISSUER_ID
+  #   triggering:
+  #     events:
+  #       - push
+  #       - pull_request
+  #     branch:
+  #       include:
+  #         - main
+  #         - release/*
+  #   scripts:
+  #     - name: Install Flutter dependencies
+  #       script: flutter pub get
+  #
+  #     - name: Build iOS app
+  #       script: |
+  #         flutter build ios --release --no-codesign
+  #
+  #     - name: Build IPA
+  #       script: |
+  #         cd ios
+  #         xcodebuild -workspace Runner.xcworkspace \
+  #           -scheme Runner \
+  #           -configuration Release \
+  #           -derivedDataPath build/ios_build \
+  #           -archivePath build/ios_build/Runner.xcarchive \
+  #           archive
+  #         xcodebuild -exportArchive \
+  #           -archivePath build/ios_build/Runner.xcarchive \
+  #           -exportOptionsPlist exportOptions.plist \
+  #           -exportPath build/ios_build/ipa
+  #         cd ..
+  #
+  #   artifacts:
+  #     - ios/build/ios_build/ipa/**/*.ipa
+  #     - flutter_drive.log
+  #   publishing:
+  #     app_store_connect:
+  #       auth: $APP_STORE_CONNECT_CREDENTIALS
+  #       submit_to_testflight: true
+  #       submit_to_app_store: true
 
   android-workflow:
     name: Android App Workflow
