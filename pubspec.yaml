@@ -1,0 +1,47 @@
+name: weam
+description: "وئام — Weam | Smart Family Counselor AI"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.1.0
+  shared_preferences: ^2.2.0
+  intl: ^0.19.0
+  flutter_dotenv: ^5.1.0
+  firebase_core: ^2.24.0
+  firebase_messaging: ^14.7.0
+  flutter_local_notifications: ^16.3.0
+  provider: ^6.1.0
+  uuid: ^4.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_linter: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - .env
+
+  fonts:
+    - family: IBMPlexSansArabic
+      fonts:
+        - asset: assets/fonts/IBMPlexSansArabic-Light.ttf
+          weight: 300
+        - asset: assets/fonts/IBMPlexSansArabic-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexSansArabic-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/IBMPlexSansArabic-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/IBMPlexSansArabic-Bold.ttf
+          weight: 700
