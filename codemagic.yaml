@@ -7,6 +7,8 @@ workflows:
       flutter: stable
       xcode: latest
       cocoapods: default
+      groups:
+        - ios_signing
       vars:
         BUNDLE_ID: "com.weam.app"
     triggering:
@@ -22,12 +24,9 @@ workflows:
           rm -rf android/
           # Generate fresh native project files for both platforms
           flutter create . --org com.weam --project-name weam --platforms ios,android
-          # Fix Android applicationId and namespace to com.weam.app
-          sed -i '' 's/com\.weam\.weam/com.weam.app/g' android/app/build.gradle.kts || true
-          sed -i '' 's/com\.weam\.weam/com.weam.app/g' android/app/build.gradle || true
-          sed -i '' 's/com\.weam\.weam/com.weam.app/g' android/app/src/main/AndroidManifest.xml || true
-          sed -i '' 's/com\.weam\.weam/com.weam.app/g' android/app/src/main/kotlin/com/weam/weam/MainActivity.kt || true
-          # Move MainActivity to correct package directory if needed
+          # Fix bundle ID from com.weam.weam to com.weam.app in all generated files
+          find . -name "*.gradle" -o -name "*.gradle.kts" -o -name "*.xml" -o -name "*.kt" -o -name "*.pbxproj" -o -name "*.plist" | xargs sed -i '' 's/com\.weam\.weam/com.weam.app/g' 2>/dev/null || true
+          # Move Android MainActivity to correct package directory if needed
           if [ -d "android/app/src/main/kotlin/com/weam/weam" ]; then
             mkdir -p android/app/src/main/kotlin/com/weam/app
             mv android/app/src/main/kotlin/com/weam/weam/MainActivity.kt android/app/src/main/kotlin/com/weam/app/ 2>/dev/null || true
@@ -46,7 +45,6 @@ workflows:
             --create
           keychain add-certificates
           xcode-project use-profiles
-        ignore_failure: true
 
       - name: Build Android AAB
         script: |
