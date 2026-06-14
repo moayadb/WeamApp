@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class Message {
   final String id;
-  final String text;
+  String text;
   final bool isUser;
   final DateTime timestamp;
   final String conversationId;
