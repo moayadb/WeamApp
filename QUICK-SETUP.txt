@@ -1,0 +1,30 @@
+⚡ QUICK SETUP - Copy & Run These Commands
+
+1. Open PowerShell as Administrator
+2. Run this ONE command:
+
+cd "C:\Users\myd-b\Downloads\WeamApp"; git config --global user.credential.helper store; git push -u origin main
+
+3. When prompted, enter your GitHub username and Personal Access Token:
+   - Go to: https://github.com/settings/tokens/new
+   - Scopes: repo, workflow
+   - Click "Generate"
+   - Copy the token (shown only once!)
+
+4. Paste token into PowerShell when asked
+
+That's it! The code will push to GitHub.
+
+---
+
+ALTERNATIVE (Easier):
+If you have "gh" CLI installed:
+  gh repo create WeamApp --public --source=. --remote=origin --push
+
+---
+
+Once pushed, reply and I'll:
+✅ Set up Codemagic for auto-builds
+✅ Configure App Store Connect
+✅ Configure Google Play
+✅ Start publishing!

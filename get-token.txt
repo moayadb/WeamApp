@@ -1,0 +1,14 @@
+STEP 1: Go to this URL in your browser (copy-paste):
+https://github.com/settings/tokens/new?scopes=repo,workflow&description=WeamApp-Push
+
+STEP 2: Click the green "Generate token" button at the bottom
+
+STEP 3: Copy the token (it starts with ghp_)
+
+STEP 4: Paste it below when prompted
+
+Then run this PowerShell command:
+$token = Read-Host "Paste your NEW token here"
+cd "C:\Users\myd-b\Downloads\WeamApp"
+git remote set-url origin "https://moayad:$token@github.com/moayad/WeamApp.git"
+git push -u origin main
