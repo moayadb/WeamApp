@@ -37,7 +37,6 @@ class _WeamAppState extends State<WeamApp> {
                 seedColor: const Color(0xFF0e9384),
                 brightness: Brightness.light,
               ),
-              fontFamily: 'IBMPlexSansArabic',
             ),
             darkTheme: ThemeData(
               useMaterial3: true,
@@ -46,7 +45,6 @@ class _WeamAppState extends State<WeamApp> {
                 seedColor: const Color(0xFF0e9384),
                 brightness: Brightness.dark,
               ),
-              fontFamily: 'IBMPlexSansArabic',
             ),
             themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             locale: const Locale('ar', 'SA'),
