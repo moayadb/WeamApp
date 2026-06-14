@@ -7,8 +7,6 @@ workflows:
       flutter: stable
       xcode: latest
       cocoapods: default
-      groups:
-        - app_credentials
       vars:
         BUNDLE_ID: "com.weam.app"
     triggering:
@@ -20,7 +18,21 @@ workflows:
     scripts:
       - name: Generate native project files
         script: |
+          # Remove old Android build files that conflict with flutter create
+          rm -rf android/
+          # Generate fresh native project files for both platforms
           flutter create . --org com.weam --project-name weam --platforms ios,android
+          # Fix Android applicationId and namespace to com.weam.app
+          sed -i '' 's/com\.weam\.weam/com.weam.app/g' android/app/build.gradle.kts || true
+          sed -i '' 's/com\.weam\.weam/com.weam.app/g' android/app/build.gradle || true
+          sed -i '' 's/com\.weam\.weam/com.weam.app/g' android/app/src/main/AndroidManifest.xml || true
+          sed -i '' 's/com\.weam\.weam/com.weam.app/g' android/app/src/main/kotlin/com/weam/weam/MainActivity.kt || true
+          # Move MainActivity to correct package directory if needed
+          if [ -d "android/app/src/main/kotlin/com/weam/weam" ]; then
+            mkdir -p android/app/src/main/kotlin/com/weam/app
+            mv android/app/src/main/kotlin/com/weam/weam/MainActivity.kt android/app/src/main/kotlin/com/weam/app/ 2>/dev/null || true
+            rm -rf android/app/src/main/kotlin/com/weam/weam
+          fi
 
       - name: Install dependencies
         script: |
