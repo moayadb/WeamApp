@@ -61,7 +61,6 @@ workflows:
         script: |
           flutter build ipa --release \
             --export-options-plist=/Users/builder/export_options.plist
-        ignore_failure: true
 
     artifacts:
       - build/app/outputs/bundle/release/app-release.aab
@@ -70,6 +69,12 @@ workflows:
       - flutter_drive.log
 
     publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        submit_to_app_store: false
       email:
         recipients:
           - mouayad.balloul@gmail.com
