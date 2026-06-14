@@ -58,7 +58,9 @@ class MessageBubble extends StatelessWidget {
                   SelectableText(
                     message.text,
                     style: TextStyle(
-                      color: message.isUser ? Colors.white : Colors.black87,
+                      color: message.isUser
+                          ? Colors.white
+                          : Theme.of(context).textTheme.bodyLarge?.color,
                       fontSize: 14,
                     ),
                   ),

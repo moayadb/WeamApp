@@ -94,26 +94,31 @@ class _ChatScreenState extends State<ChatScreen> {
       final stream = await WebhookService.sendMessage(text, _currentConversationId!);
 
       String fullResponse = '';
+      final assistantMessage = Message(
+        id: uuid.v4(),
+        text: '',
+        isUser: false,
+        timestamp: DateTime.now(),
+        conversationId: _currentConversationId!,
+        isStreaming: true,
+      );
+
+      setState(() {
+        _messages.add(assistantMessage);
+      });
 
       await stream.forEach((chunk) {
         fullResponse += chunk;
         setState(() {
-          if (_messages.isNotEmpty && !_messages.last.isUser) {
-            _messages.last.text = fullResponse;
-          }
+          assistantMessage.text = fullResponse;
         });
         _scrollToBottom();
       });
 
-      if (fullResponse.isNotEmpty) {
-        final assistantMessage = Message(
-          id: uuid.v4(),
-          text: fullResponse,
-          isUser: false,
-          timestamp: DateTime.now(),
-          conversationId: _currentConversationId!,
-        );
+      assistantMessage.isStreaming = false;
 
+      if (fullResponse.isNotEmpty) {
+        assistantMessage.text = fullResponse;
         await StorageService.saveMessage(assistantMessage);
 
         final conversation = _conversations
